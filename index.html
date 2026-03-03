@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔒 SYSTEM LOCKED 🔒</title>
+    <title>🔐 SYSTEM LOCKED - MASUKKAN PIN UNTUK KELUAR</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            cursor: none;
         }
         
         body {
-            background: linear-gradient(135deg, #000000, #1a0000);
+            background: #000;
+            color: #0f0;
             font-family: 'Courier New', monospace;
             height: 100vh;
             overflow: hidden;
-            color: #ff0000;
             position: fixed;
             width: 100%;
         }
@@ -28,258 +28,368 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            width: 90%;
-            max-width: 500px;
-            z-index: 9999;
+            width: 100%;
+            padding: 20px;
+            z-index: 99999;
         }
         
-        .warning-icon {
-            font-size: 80px;
+        .glitch {
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 2px 2px #f00, -2px -2px #00f;
+            animation: glitch 0.1s infinite;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px #ff0000;
         }
         
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px #ff0000;
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(10deg); }
+            40% { transform: skew(-10deg); }
+            60% { transform: skew(5deg); }
+            80% { transform: skew(-5deg); }
+            100% { transform: skew(0deg); }
         }
         
-        .subtitle {
-            font-size: 14px;
-            margin-bottom: 30px;
-            color: #ff6666;
+        .warning-box {
+            border: 2px solid #f00;
+            background: rgba(255,0,0,0.1);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
         }
         
         .pin-display {
-            font-size: 48px;
-            font-weight: bold;
-            background: rgba(255,0,0,0.1);
+            font-size: 64px;
+            letter-spacing: 20px;
+            background: #111;
             padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ff0000;
-            margin-bottom: 20px;
-            letter-spacing: 10px;
-            text-shadow: 0 0 15px red;
+            margin: 20px 0;
+            border: 1px solid #0f0;
+            font-weight: bold;
         }
         
-        .pin-pad {
+        .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            max-width: 400px;
+            margin: 20px auto;
         }
         
-        .pin-btn {
-            background: rgba(255,0,0,0.2);
-            border: 1px solid #ff0000;
-            color: white;
-            font-size: 28px;
-            padding: 15px;
+        .key {
+            background: #111;
+            border: 1px solid #0f0;
+            color: #0f0;
+            font-size: 32px;
+            padding: 20px;
             cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
             transition: 0.2s;
         }
         
-        .pin-btn:hover {
-            background: rgba(255,0,0,0.5);
-            transform: scale(1.05);
+        .key:hover {
+            background: #0f0;
+            color: #000;
         }
         
-        .pin-btn:active {
+        .key:active {
             transform: scale(0.95);
         }
         
         .enter-btn {
-            background: #ff0000;
-            color: black;
-            font-size: 24px;
-            padding: 15px;
+            background: #f00;
+            color: #fff;
+            font-size: 28px;
+            padding: 20px 40px;
             border: none;
-            border-radius: 5px;
+            margin: 20px;
             cursor: pointer;
             font-weight: bold;
-            width: 100%;
-            margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            border-radius: 5px;
         }
         
         .enter-btn:hover {
-            background: #cc0000;
+            background: #900;
         }
         
-        .timer {
-            font-size: 24px;
-            margin: 20px 0;
-            color: #ff9900;
-        }
-        
-        .threat-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 30px;
-            line-height: 1.5;
-        }
-        
-        .blink {
+        .warning-text {
+            color: #f00;
+            font-size: 18px;
+            margin: 20px;
             animation: blink 1s infinite;
         }
         
         @keyframes blink {
-            0% { opacity: 1; }
+            0%,100% { opacity: 1; }
             50% { opacity: 0.3; }
-            100% { opacity: 1; }
         }
         
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .encrypt-progress {
+            margin: 20px;
+            font-size: 14px;
+        }
+        
+        .progress-bar {
+            width: 80%;
+            height: 20px;
+            background: #111;
+            border: 1px solid #0f0;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 9998;
+            width: 0%;
+            background: #f00;
+            animation: progress 5s infinite;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            100% { width: 0%; }
+        }
+        
+        .status-messages {
+            margin: 20px;
+            font-size: 14px;
+            color: #f66;
         }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-    
     <div class="container">
-        <div class="warning-icon">⚠️</div>
-        <h1>SYSTEM TERKUNCI</h1>
-        <div class="subtitle">SEMUA FILE ANDA TELAH DIENKRIPSI</div>
+        <div class="glitch">⚠️ SISTEM TERKUNCI ⚠️</div>
         
-        <div class="pin-display" id="pinDisplay">____</div>
-        
-        <div class="pin-pad">
-            <div class="pin-btn" onclick="addPin(1)">1</div>
-            <div class="pin-btn" onclick="addPin(2)">2</div>
-            <div class="pin-btn" onclick="addPin(3)">3</div>
-            <div class="pin-btn" onclick="addPin(4)">4</div>
-            <div class="pin-btn" onclick="addPin(5)">5</div>
-            <div class="pin-btn" onclick="addPin(6)">6</div>
-            <div class="pin-btn" onclick="addPin(7)">7</div>
-            <div class="pin-btn" onclick="addPin(8)">8</div>
-            <div class="pin-btn" onclick="addPin(9)">9</div>
-            <div class="pin-btn" onclick="addPin(0)">0</div>
-            <div class="pin-btn" onclick="clearPin()">C</div>
-            <div class="pin-btn" onclick="deletePin()">⌫</div>
-        </div>
-        
-        <button class="enter-btn" onclick="checkPin()">ENTER</button>
-        
-        <div class="timer" id="timer">⏳ 05:00</div>
-        
-        <div class="threat-text">
-            PERINGATAN!<br>
-            Masukkan PIN dengan benar dalam waktu 5 menit.<br>
-            Jika gagal, semua data akan dihapus permanen.<br>
-            Jangan tutup jendela ini atau data akan rusak.<br>
-            PIN: 100
+        <div class="warning-box">
+            <div style="font-size: 24px; margin-bottom: 10px;">🔒 LOCKED 🔒</div>
+            <div style="font-size: 14px; margin-bottom: 20px;">
+                Untuk keluar dari halaman ini, masukkan PIN yang benar
+            </div>
+            
+            <div class="pin-display" id="pinDisplay">____</div>
+            
+            <div class="keypad" id="keypad">
+                <!-- Keypad akan dibuat oleh JavaScript -->
+            </div>
+            
+            <button class="enter-btn" onclick="checkPin()" id="enterBtn">ENTER</button>
+            
+            <div class="warning-text">⚠️ JANGAN TUTUP HALAMAN INI ⚠️</div>
+            
+            <div class="encrypt-progress">
+                <div>Status: MENGENKRIPSI FILE...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div class="status-messages" id="statusMessages">
+                C:/Users/Desktop/photo.jpg - ENCRYPTED<br>
+                C:/Users/Documents/data.pdf - ENCRYPTING...<br>
+                D:/Backup/archive.zip - PROCESSING<br>
+            </div>
+            
+            <div style="font-size: 24px; margin: 10px; color: #ff0;" id="timer"></div>
+            
+            <div style="font-size: 12px; color: #666; margin-top: 20px;">
+                PIN DEFAULT: 100<br>
+                Masukkan PIN dengan benar untuk keluar
+            </div>
         </div>
     </div>
 
     <script>
-        // VARIABEL GLOBAL
+        // ===========================================
+        // LOCKDOWN TOTAL - GAK BISA KELUAR SAMA SEKALI
+        // ===========================================
+        
         let enteredPin = "";
         const correctPin = "100";
-        let timeLeft = 300; // 5 menit dalam detik
-        let timerInterval;
         let attempts = 0;
-        const maxAttempts = 3;
+        const maxAttempts = 5;
+        let timeLeft = 300; // 5 menit
         
-        // CEK BROWSER
-        if (window.innerWidth > 0) {
-            // PAKSA FULLSCREEN TERUS
-            function goFullScreen() {
-                let doc = document.documentElement;
-                if (doc.requestFullscreen) {
-                    doc.requestFullscreen();
-                } else if (doc.webkitRequestFullscreen) {
-                    doc.webkitRequestFullscreen();
-                } else if (doc.msRequestFullscreen) {
-                    doc.msRequestFullscreen();
-                }
+        // 1. PAKSA FULLSCREEN TERUS
+        function forceFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    // Gagal? Coba lagi
+                    setTimeout(forceFullScreen, 100);
+                });
             }
-            
-            // PANGGIL FULLSCREEN TERUS
-            goFullScreen();
-            setInterval(goFullScreen, 1000);
         }
         
-        // DISABLE SEMUA TOMBOL KELUAR
+        // Jalankan terus menerus
+        setInterval(forceFullScreen, 500);
+        forceFullScreen();
+        
+        // 2. BLOCK SEMUA TOMBOL KELUAR
         document.addEventListener('keydown', function(e) {
-            // CEK TOMBOL BAHAYA
-            if (e.key === 'Escape' || 
-                e.key === 'F11' ||
-                (e.altKey && e.key === 'F4') ||
-                (e.ctrlKey && e.key === 'w') ||
-                (e.ctrlKey && e.key === 'q') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'q') ||
-                (e.key === 'F5') ||
-                (e.ctrlKey && e.key === 'r') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'r') ||
-                (e.key === 'F12') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-                (e.ctrlKey && e.key === 'u')) {
-                
+            // Block semua kemungkinan exit
+            const blockedKeys = [
+                'Escape', 'F11', 'F12', 'F5', 'F4',
+                'Tab', 'Alt', 'Control', 'Meta', 'Win',
+                'ContextMenu', 'Insert'
+            ];
+            
+            if (blockedKeys.includes(e.key)) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
             
-            // TANGKAP INPUT ANGKA
-            if (!isNaN(parseInt(e.key)) && e.key >= '0' && e.key <= '9') {
-                addPin(parseInt(e.key));
+            // Block kombinasi berbahaya
+            if (e.altKey || e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
             }
             
-            // ENTER KEY
+            // Handle input angka
+            if (e.key >= '0' && e.key <= '9') {
+                addPin(e.key);
+            }
+            
+            // Enter untuk submit
             if (e.key === 'Enter') {
                 checkPin();
             }
             
-            // BACKSPACE
-            if (e.key === 'Backspace') {
+            // Backspace untuk hapus
+            if (e.key === 'Backspace' || e.key === 'Delete') {
                 deletePin();
             }
         });
         
-        // DISABLE KLIK KANAN
+        // 3. BLOCK KLIK KANAN
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
             return false;
         });
         
-        // DISABLE SELECT
+        // 4. BLOCK SELECT
         document.addEventListener('selectstart', function(e) {
             e.preventDefault();
             return false;
         });
         
-        // CEK SETIAP KALI USER COBA KELUAR
-        window.addEventListener('beforeunload', function(e) {
+        // 5. BLOCK DRAG
+        document.addEventListener('dragstart', function(e) {
             e.preventDefault();
-            e.returnValue = '';
-            return '';
+            return false;
         });
         
+        // 6. BLOCK COPY-PASTE
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // 7. BLOCK TOUCH EVENTS (HP)
+        document.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 8. PAKSA WINDOW SELALU DI DEPAN
         window.addEventListener('blur', function() {
             setTimeout(function() {
                 window.focus();
-                goFullScreen();
-            }, 100);
+                forceFullScreen();
+            }, 10);
         });
         
-        // FUNGSI PIN
+        // 9. CEK VISIBILITY CHANGE
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Kalo pindah tab, paksa balik
+                window.focus();
+                forceFullScreen();
+                
+                // Hukuman: kurangi waktu
+                timeLeft = Math.max(0, timeLeft - 30);
+            }
+        });
+        
+        // 10. BLOCK BEFORE UNLOAD (KELUAR HALAMAN)
+        window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = 'PIN diperlukan untuk keluar!';
+            return 'PIN diperlukan untuk keluar!';
+        });
+        
+        // 11. BLOCK SCROLL
+        window.addEventListener('scroll', function(e) {
+            window.scrollTo(0, 0);
+            e.preventDefault();
+        });
+        
+        // 12. BLOCK RESIZE
+        window.addEventListener('resize', function(e) {
+            window.resizeTo(screen.width, screen.height);
+        });
+        
+        // 13. BLOCK TASK MANAGER (Limited)
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+Shift+Esc (Task Manager) - gak bisa di-block total, tapi kita coba
+            if (e.ctrlKey && e.shiftKey && e.key === 'Escape') {
+                e.preventDefault();
+                
+                // Tambah efek menakutkan
+                alert('⚠️ TASK MANAGER DIBLOCK! MASUKKAN PIN!');
+                
+                // Paksa fullscreen lagi
+                forceFullScreen();
+            }
+            
+            // Alt+F4
+            if (e.altKey && e.key === 'F4') {
+                e.preventDefault();
+                alert('⚠️ Alt+F4 TIDAK BERFUNGSI! MASUKKAN PIN 100!');
+            }
+        });
+        
+        // 14. BUAT KEYPAD
+        function createKeypad() {
+            const keypad = document.getElementById('keypad');
+            const numbers = [1,2,3,4,5,6,7,8,9, 'C', 0, '⌫'];
+            
+            numbers.forEach(num => {
+                const key = document.createElement('div');
+                key.className = 'key';
+                key.textContent = num;
+                
+                key.onclick = function() {
+                    if (num === 'C') clearPin();
+                    else if (num === '⌫') deletePin();
+                    else addPin(num.toString());
+                };
+                
+                keypad.appendChild(key);
+            });
+        }
+        
+        // 15. FUNGSI PIN
         function addPin(num) {
             if (enteredPin.length < 3) {
-                enteredPin += num.toString();
+                enteredPin += num;
                 updateDisplay();
             }
         }
@@ -297,108 +407,110 @@
         function updateDisplay() {
             let display = "";
             for (let i = 0; i < 3; i++) {
-                if (i < enteredPin.length) {
-                    display += enteredPin[i] + " ";
-                } else {
-                    display += "_ ";
-                }
+                if (i < enteredPin.length) display += enteredPin[i] + " ";
+                else display += "_ ";
             }
             document.getElementById('pinDisplay').innerText = display.trim();
         }
         
+        // 16. CEK PIN
         function checkPin() {
             if (enteredPin === correctPin) {
-                // PIN BENAR - TAMPILIN PESAN
+                // PIN BENAR - BUKA LOCK
                 document.body.innerHTML = `
                     <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999;">
-                        ✅ AKSES DITERIMA - FILE ANDA AMAN ✅
+                        ✅ PIN BENAR - SISTEM TERBUKA<br>
+                        <span style="font-size:16px; margin-top:20px;">Anda bisa keluar sekarang</span>
                     </div>
                 `;
-                clearInterval(timerInterval);
+                
+                // Hapus semua blocker
+                setTimeout(() => {
+                    document.exitFullscreen();
+                    window.close(); // Coba tutup
+                }, 3000);
             } else {
                 // PIN SALAH
                 attempts++;
                 
                 if (attempts >= maxAttempts) {
-                    // MAKSIMAL PERCOBAAN - SIMULASI HAPUS FILE
+                    // MAX ATTEMPT - SIMULASI HAPUS FILE
                     document.body.innerHTML = `
                         <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
-                            <div>💀 SEMUA FILE DIHAPUS 💀</div>
-                            <div style="font-size:16px; margin-top:20px;">C://Windows/System32/data.bin - DELETED</div>
-                            <div style="font-size:16px;">D://Documents/private.key - DELETED</div>
-                            <div style="font-size:16px;">E://Backup/archive.zip - CORRUPTED</div>
+                            <div>💀 PERCOBAAN GAGAL 💀</div>
+                            <div style="font-size:16px; margin-top:20px;">SEMUA FILE DIHAPUS...</div>
+                            <div style="font-size:12px; margin-top:30px;">C:\\Windows\\System32\\* - DELETED</div>
+                            <div style="font-size:12px;">D:\\*.* - FORMATTING...</div>
                         </div>
                     `;
-                    clearInterval(timerInterval);
                 } else {
-                    // RESET PIN
-                    alert("PIN SALAH! Sisa percobaan: " + (maxAttempts - attempts));
+                    // Reset PIN
+                    alert(`❌ PIN SALAH! Percobaan ${attempts}/${maxAttempts}`);
                     enteredPin = "";
                     updateDisplay();
                     
-                    // KURANGI WAKTU
+                    // Kurangi waktu
                     timeLeft = Math.max(0, timeLeft - 30);
+                    
+                    // Update pesan ancaman
+                    document.getElementById('statusMessages').innerHTML += 
+                        `<br>⚠️ PERCOBAAN GAGAL - WAKTU BERKURANG ⚠️`;
                 }
             }
         }
         
-        // TIMER COUNTDOWN
+        // 17. TIMER
         function startTimer() {
-            timerInterval = setInterval(function() {
+            const timerInterval = setInterval(() => {
                 timeLeft--;
                 
                 if (timeLeft <= 0) {
-                    // WAKTU HABIS - HAPUS SEMUA (SIMULASI)
+                    // Waktu habis
                     document.body.innerHTML = `
                         <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
                             <div>⏰ WAKTU HABIS ⏰</div>
-                            <div style="font-size:20px; margin-top:20px;">SISTEM MELAKUKAN FORMAT OTOMATIS...</div>
-                            <div style="font-size:14px; margin-top:30px;">[====================] 100%</div>
-                            <div style="font-size:14px; color:#f66;">SEMUA DATA TELAH DIHAPUS</div>
+                            <div style="font-size:16px; margin-top:20px;">ENKRIPSI DIPAKSAKAN...</div>
                         </div>
                     `;
                     clearInterval(timerInterval);
-                    return;
                 }
                 
-                let mins = Math.floor(timeLeft / 60);
-                let secs = timeLeft % 60;
-                document.getElementById('timer').innerText = `⏳ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                document.getElementById('timer').innerText = 
+                    `⏳ WAKTU: ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             }, 1000);
         }
         
-        startTimer();
+        // 18. UPDATE STATUS RANDOM
+        function updateStatus() {
+            const messages = [
+                "Mengenkripsi file pribadi...",
+                "Mengunci registry...",
+                "Memblokir akses sistem...",
+                "Menghapus backup...",
+                "Mengkorup data penting...",
+                "Menyandikan dokumen..."
+            ];
+            
+            setInterval(() => {
+                const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+                document.getElementById('statusMessages').innerHTML = 
+                    randomMsg + "<br>" + 
+                    "C:/Users/ - " + Math.floor(Math.random() * 100) + "%<br>" +
+                    "D:/Data/ - " + Math.floor(Math.random() * 100) + "%";
+            }, 2000);
+        }
         
-        // PAKSA FOKUS TERUS
-        window.focus();
-        setInterval(function() {
+        // INIT
+        window.onload = function() {
+            createKeypad();
+            startTimer();
+            updateStatus();
+            updateDisplay();
             window.focus();
-        }, 100);
-        
-        // DISABLE SCROLL
-        window.addEventListener('scroll', function(e) {
-            window.scrollTo(0, 0);
-            e.preventDefault();
-        });
-        
-        // LOCK TOUCH MOVE
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-        
-        // SENSOR API - DETEKSI KELUAR DARI TAB
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                // KALO PINDAH TAB, KEMBALIKAN
-                setTimeout(function() {
-                    window.focus();
-                    goFullScreen();
-                    
-                    // TAMBAH EFEK PANIK
-                    timeLeft = Math.max(0, timeLeft - 10);
-                }, 10);
-            }
-        });
+            forceFullScreen();
+        };
     </script>
 </body>
 </html>
