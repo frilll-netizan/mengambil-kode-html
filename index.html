@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔒 SYSTEM LOCKED 🔒</title>
+    <title>🔒 CHROME TERKUNCI - MASUKKAN PIN 🔒</title>
     <style>
         * {
             margin: 0;
@@ -13,15 +13,76 @@
         }
         
         body {
-            background: linear-gradient(135deg, #000000, #1a0000);
+            background: #000;
+            color: #ff0000;
             font-family: 'Courier New', monospace;
             height: 100vh;
             overflow: hidden;
-            color: #ff0000;
-            position: fixed;
-            width: 100%;
+            position: relative;
+            cursor: none;
         }
         
+        /* Efek darah di pinggir */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255,0,0,0.1) 0px,
+                transparent 10px,
+                rgba(255,0,0,0.1) 20px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        /* Mata ngintip */
+        .eyes {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 100px;
+            z-index: 2;
+        }
+        
+        .eye {
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border-radius: 50%;
+            position: relative;
+            animation: blink 3s infinite;
+        }
+        
+        .eye::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #f00;
+            border-radius: 50%;
+            top: 25px;
+            left: 25px;
+            animation: moveEye 5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+        
+        @keyframes moveEye {
+            0%, 100% { left: 25px; }
+            50% { left: 35px; }
+        }
+        
+        /* Konten utama */
         .container {
             position: absolute;
             top: 50%;
@@ -29,257 +90,429 @@
             transform: translate(-50%, -50%);
             text-align: center;
             width: 90%;
-            max-width: 500px;
-            z-index: 9999;
+            max-width: 600px;
+            z-index: 10;
+            background: rgba(0,0,0,0.8);
+            border: 3px solid #f00;
+            padding: 40px;
+            box-shadow: 0 0 50px #f00;
+            backdrop-filter: blur(5px);
         }
         
-        .warning-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px #ff0000;
-        }
-        
-        h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
+        /* Efek glitch */
+        .glitch {
+            font-size: 48px;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px #ff0000;
+            position: relative;
+            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                         0.025em 0.04em 0 #fffc00;
+            animation: glitch 725ms infinite;
+            margin-bottom: 20px;
         }
         
+        .glitch span {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                             0.025em 0.04em 0 #fffc00;
+            }
+            15% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                             0.025em 0.04em 0 #fffc00;
+            }
+            16% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
+                             -0.05em -0.05em 0 #fffc00;
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
+                             -0.05em -0.05em 0 #fffc00;
+            }
+            50% {
+                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
+                             0 -0.04em 0 #fffc00;
+            }
+            99% {
+                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
+                             0 -0.04em 0 #fffc00;
+            }
+            100% {
+                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
+                             0.025em 0.04em 0 #fffc00;
+            }
+        }
+        
+        /* Subtitle */
         .subtitle {
-            font-size: 14px;
+            font-size: 18px;
+            color: #f66;
             margin-bottom: 30px;
-            color: #ff6666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #f00;
+            padding-bottom: 10px;
+        }
+        
+        /* Kotak PIN */
+        .pin-box {
+            background: #111;
+            border: 2px solid #f00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
         }
         
         .pin-display {
-            font-size: 48px;
+            font-size: 72px;
+            letter-spacing: 20px;
             font-weight: bold;
-            background: rgba(255,0,0,0.1);
+            color: #f00;
+            text-shadow: 0 0 20px #f00;
+            background: #000;
             padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ff0000;
-            margin-bottom: 20px;
-            letter-spacing: 10px;
-            text-shadow: 0 0 15px red;
+            border: 1px solid #f00;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
         }
         
-        .pin-pad {
+        .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            max-width: 400px;
+            margin: 30px auto;
         }
         
-        .pin-btn {
-            background: rgba(255,0,0,0.2);
-            border: 1px solid #ff0000;
-            color: white;
-            font-size: 28px;
-            padding: 15px;
+        .key {
+            background: #1a0000;
+            border: 2px solid #f00;
+            color: #f00;
+            font-size: 40px;
+            padding: 20px;
             cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
             transition: 0.2s;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,0,0,0.3);
         }
         
-        .pin-btn:hover {
-            background: rgba(255,0,0,0.5);
-            transform: scale(1.05);
+        .key:hover {
+            background: #f00;
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #f00;
         }
         
-        .pin-btn:active {
+        .key:active {
             transform: scale(0.95);
         }
         
         .enter-btn {
-            background: #ff0000;
-            color: black;
-            font-size: 24px;
-            padding: 15px;
+            background: #f00;
+            color: #000;
+            font-size: 36px;
+            padding: 20px 40px;
             border: none;
-            border-radius: 5px;
+            margin: 20px auto;
             cursor: pointer;
             font-weight: bold;
-            width: 100%;
-            margin-top: 10px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 5px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 30px #f00;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .enter-btn:hover {
-            background: #cc0000;
+            background: #900;
+            color: #fff;
         }
         
-        .timer {
-            font-size: 24px;
+        /* Warning text */
+        .warning {
+            font-size: 16px;
+            color: #f00;
             margin: 20px 0;
-            color: #ff9900;
-        }
-        
-        .threat-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 30px;
-            line-height: 1.5;
-        }
-        
-        .blink {
             animation: blink 1s infinite;
         }
         
         @keyframes blink {
-            0% { opacity: 1; }
+            0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
-            100% { opacity: 1; }
         }
         
-        .overlay {
-            position: fixed;
+        /* Timer */
+        .timer {
+            font-size: 32px;
+            color: #ff0;
+            margin: 20px;
+            font-weight: bold;
+        }
+        
+        /* Status messages */
+        .status {
+            font-size: 14px;
+            color: #f66;
+            margin-top: 20px;
+            text-align: left;
+            border-top: 1px solid #f00;
+            padding-top: 20px;
+        }
+        
+        .status-line {
+            margin: 5px 0;
+            color: #f99;
+        }
+        
+        /* Efek glitch tambahan */
+        .glitch-overlay {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 9998;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255,0,0,0.1) 0px,
+                rgba(0,0,0,0.5) 2px,
+                rgba(255,0,0,0.1) 4px
+            );
+            pointer-events: none;
+            animation: scan 5s linear infinite;
+            z-index: 9999;
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
+    <!-- Mata mengintip -->
+    <div class="eyes">
+        <div class="eye"></div>
+        <div class="eye"></div>
+    </div>
     
+    <!-- Konten utama -->
     <div class="container">
-        <div class="warning-icon">⚠️</div>
-        <h1>SYSTEM TERKUNCI</h1>
-        <div class="subtitle">SEMUA FILE ANDA TELAH DIENKRIPSI</div>
-        
-        <div class="pin-display" id="pinDisplay">____</div>
-        
-        <div class="pin-pad">
-            <div class="pin-btn" onclick="addPin(1)">1</div>
-            <div class="pin-btn" onclick="addPin(2)">2</div>
-            <div class="pin-btn" onclick="addPin(3)">3</div>
-            <div class="pin-btn" onclick="addPin(4)">4</div>
-            <div class="pin-btn" onclick="addPin(5)">5</div>
-            <div class="pin-btn" onclick="addPin(6)">6</div>
-            <div class="pin-btn" onclick="addPin(7)">7</div>
-            <div class="pin-btn" onclick="addPin(8)">8</div>
-            <div class="pin-btn" onclick="addPin(9)">9</div>
-            <div class="pin-btn" onclick="addPin(0)">0</div>
-            <div class="pin-btn" onclick="clearPin()">C</div>
-            <div class="pin-btn" onclick="deletePin()">⌫</div>
+        <div class="glitch">
+            ⚠️ CHROME TERKUNCI ⚠️
         </div>
         
-        <button class="enter-btn" onclick="checkPin()">ENTER</button>
+        <div class="subtitle">
+            [ GA BISA KELUAR SAMPE LO MASUKIN PIN ]
+        </div>
         
-        <div class="timer" id="timer">⏳ 05:00</div>
+        <div class="pin-box">
+            <div class="pin-display" id="pinDisplay">_ _ _</div>
+            
+            <div class="keypad" id="keypad"></div>
+            
+            <button class="enter-btn" onclick="checkPin()" id="enterBtn">
+                [ ENTER ]
+            </button>
+        </div>
         
-        <div class="threat-text">
-            PERINGATAN!<br>
-            Masukkan PIN dengan benar dalam waktu 5 menit.<br>
-            Jika gagal, semua data akan dihapus permanen.<br>
-            Jangan tutup jendela ini atau data akan rusak.<br>
-            PIN: 100
+        <div class="warning">
+            ⚡ PIN: 100 ⚡
+        </div>
+        
+        <div class="timer" id="timer">
+            ⏳ 05:00
+        </div>
+        
+        <div class="status">
+            <div class="status-line">>> CHROME PROCESS: LOCKED</div>
+            <div class="status-line">>> NEW TAB: DISABLED</div>
+            <div class="status-line">>> CLOSE TAB: BLOCKED</div>
+            <div class="status-line">>> ALT+F4: BYPASSED</div>
+            <div class="status-line">>> TASK MANAGER: DETECTED</div>
+            <div class="status-line">>> SYSTEM: ENCRYPTING...</div>
         </div>
     </div>
+    
+    <!-- Efek glitch overlay -->
+    <div class="glitch-overlay"></div>
 
     <script>
-        // VARIABEL GLOBAL
+        // ===========================================
+        // CHROME LOCKDOWN - GAK BISA KELUAR
+        // ===========================================
+        
         let enteredPin = "";
         const correctPin = "100";
-        let timeLeft = 300; // 5 menit dalam detik
-        let timerInterval;
         let attempts = 0;
-        const maxAttempts = 3;
+        const maxAttempts = 5;
+        let timeLeft = 300; // 5 menit dalam detik
         
-        // CEK BROWSER
-        if (window.innerWidth > 0) {
-            // PAKSA FULLSCREEN TERUS
-            function goFullScreen() {
-                let doc = document.documentElement;
-                if (doc.requestFullscreen) {
-                    doc.requestFullscreen();
-                } else if (doc.webkitRequestFullscreen) {
-                    doc.webkitRequestFullscreen();
-                } else if (doc.msRequestFullscreen) {
-                    doc.msRequestFullscreen();
-                }
+        // 1. PAKSA FULLSCREEN
+        function forceFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    // Gagal? coba lagi
+                });
             }
-            
-            // PANGGIL FULLSCREEN TERUS
-            goFullScreen();
-            setInterval(goFullScreen, 1000);
         }
         
-        // DISABLE SEMUA TOMBOL KELUAR
+        // Paksa fullscreen tiap detik
+        setInterval(forceFullscreen, 1000);
+        forceFullscreen();
+        
+        // 2. BLOCK SEMUA TOMBOL NAVIGASI CHROME
         document.addEventListener('keydown', function(e) {
-            // CEK TOMBOL BAHAYA
-            if (e.key === 'Escape' || 
-                e.key === 'F11' ||
-                (e.altKey && e.key === 'F4') ||
-                (e.ctrlKey && e.key === 'w') ||
-                (e.ctrlKey && e.key === 'q') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'q') ||
-                (e.key === 'F5') ||
-                (e.ctrlKey && e.key === 'r') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'r') ||
-                (e.key === 'F12') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J') ||
-                (e.ctrlKey && e.key === 'u')) {
-                
+            // DAFTAR TOMBOL YANG DIBLOCK
+            const blockedKeys = [
+                'Escape', 'F11', 'F12', 'F5', 'F4',
+                'Tab', 'Alt', 'Control', 'Meta', 'Win',
+                'ContextMenu'
+            ];
+            
+            // Block semua tombol fungsi
+            if (blockedKeys.includes(e.key)) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
             
-            // TANGKAP INPUT ANGKA
-            if (!isNaN(parseInt(e.key)) && e.key >= '0' && e.key <= '9') {
-                addPin(parseInt(e.key));
+            // Block kombinasi chrome
+            if (e.ctrlKey && e.key === 't') { // New tab
+                e.preventDefault();
+                showThreat('Mencoba buka tab baru? GA BISA!');
+                timeLeft -= 10;
             }
             
-            // ENTER KEY
+            if (e.ctrlKey && e.key === 'w') { // Close tab
+                e.preventDefault();
+                showThreat('Mau nutup tab? GA BISA!');
+                timeLeft -= 10;
+            }
+            
+            if (e.ctrlKey && e.key === 'r') { // Refresh
+                e.preventDefault();
+                showThreat('Refresh? GA BISA!');
+                timeLeft -= 10;
+            }
+            
+            if (e.altKey && e.key === 'F4') { // Close window
+                e.preventDefault();
+                showThreat('Alt+F4? MATIIN AJA!');
+                timeLeft -= 15;
+            }
+            
+            if (e.ctrlKey && e.shiftKey && e.key === 'Escape') { // Task Manager
+                e.preventDefault();
+                showThreat('TASK MANAGER? MAU MATIIN PROSES?');
+                document.body.style.background = '#f00';
+                setTimeout(() => {
+                    document.body.style.background = '#000';
+                }, 500);
+            }
+            
+            // Block semua ALT/CTRL combinations
+            if (e.altKey || e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            // Handle input angka
+            if (e.key >= '0' && e.key <= '9') {
+                addPin(e.key);
+            }
+            
+            // Enter
             if (e.key === 'Enter') {
                 checkPin();
             }
             
-            // BACKSPACE
-            if (e.key === 'Backspace') {
+            // Backspace
+            if (e.key === 'Backspace' || e.key === 'Delete') {
                 deletePin();
             }
         });
         
-        // DISABLE KLIK KANAN
+        // 3. BLOCK KLIK KANAN
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
+            showThreat('KLIK KANAN? UDAH GA BERFUNGSI!');
             return false;
         });
         
-        // DISABLE SELECT
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-        
-        // CEK SETIAP KALI USER COBA KELUAR
+        // 4. CEK KELUAR DARI HALAMAN
         window.addEventListener('beforeunload', function(e) {
             e.preventDefault();
-            e.returnValue = '';
-            return '';
+            e.returnValue = 'MASUKKIN PIN DULU KONTOL!';
+            showThreat('MAU KELUAR? PIN DULU!');
+            return 'MASUKKIN PIN DULU KONTOL!';
         });
         
-        window.addEventListener('blur', function() {
-            setTimeout(function() {
+        // 5. CEK VISIBILITY (PINDAH TAB)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                showThreat('PINDAH TAB? BALIK SANA!');
+                timeLeft = Math.max(0, timeLeft - 30);
                 window.focus();
-                goFullScreen();
-            }, 100);
+                forceFullscreen();
+            }
         });
         
-        // FUNGSI PIN
+        // 6. PAKSA FOKUS
+        window.addEventListener('blur', function() {
+            setTimeout(() => {
+                window.focus();
+                forceFullscreen();
+            }, 10);
+        });
+        
+        // 7. BLOCK SCROLL
+        window.addEventListener('scroll', function(e) {
+            window.scrollTo(0, 0);
+            e.preventDefault();
+        });
+        
+        // 8. BUAT KEYPAD
+        function createKeypad() {
+            const keypad = document.getElementById('keypad');
+            const buttons = [
+                '1', '2', '3',
+                '4', '5', '6',
+                '7', '8', '9',
+                'C', '0', '⌫'
+            ];
+            
+            buttons.forEach(btn => {
+                const key = document.createElement('div');
+                key.className = 'key';
+                key.textContent = btn;
+                
+                key.onclick = function() {
+                    if (btn === 'C') clearPin();
+                    else if (btn === '⌫') deletePin();
+                    else addPin(btn);
+                };
+                
+                keypad.appendChild(key);
+            });
+        }
+        
+        // 9. FUNGSI PIN
         function addPin(num) {
             if (enteredPin.length < 3) {
-                enteredPin += num.toString();
+                enteredPin += num;
                 updateDisplay();
             }
         }
@@ -297,108 +530,137 @@
         function updateDisplay() {
             let display = "";
             for (let i = 0; i < 3; i++) {
-                if (i < enteredPin.length) {
-                    display += enteredPin[i] + " ";
-                } else {
-                    display += "_ ";
-                }
+                if (i < enteredPin.length) display += enteredPin[i] + " ";
+                else display += "_ ";
             }
-            document.getElementById('pinDisplay').innerText = display.trim();
+            document.getElementById('pinDisplay').innerText = display;
         }
         
+        // 10. CEK PIN
         function checkPin() {
             if (enteredPin === correctPin) {
-                // PIN BENAR - TAMPILIN PESAN
+                // PIN BENAR
                 document.body.innerHTML = `
-                    <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999;">
-                        ✅ AKSES DITERIMA - FILE ANDA AMAN ✅
+                    <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                        <div>✅ PIN BENAR</div>
+                        <div style="font-size:24px; margin-top:20px;">CHROME AKAN DIBUKA...</div>
                     </div>
                 `;
-                clearInterval(timerInterval);
+                
+                // Keluar dari fullscreen
+                setTimeout(() => {
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                    }
+                }, 2000);
             } else {
                 // PIN SALAH
                 attempts++;
+                showThreat(`PIN SALAH! PERCOBAAN ${attempts}/${maxAttempts}`);
                 
                 if (attempts >= maxAttempts) {
-                    // MAKSIMAL PERCOBAAN - SIMULASI HAPUS FILE
+                    // MAX ATTEMPT
                     document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
-                            <div>💀 SEMUA FILE DIHAPUS 💀</div>
-                            <div style="font-size:16px; margin-top:20px;">C://Windows/System32/data.bin - DELETED</div>
-                            <div style="font-size:16px;">D://Documents/private.key - DELETED</div>
-                            <div style="font-size:16px;">E://Backup/archive.zip - CORRUPTED</div>
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                            <div>💀💀💀</div>
+                            <div>PERCOBAAN GAGAL</div>
+                            <div style="font-size:24px; margin-top:20px;">SEMUA DATA DIENKRIPSI</div>
+                            <div style="font-size:16px; margin-top:30px;">CHROME AKAN DI LOCK SELAMANYA</div>
                         </div>
                     `;
-                    clearInterval(timerInterval);
                 } else {
-                    // RESET PIN
-                    alert("PIN SALAH! Sisa percobaan: " + (maxAttempts - attempts));
                     enteredPin = "";
                     updateDisplay();
-                    
-                    // KURANGI WAKTU
                     timeLeft = Math.max(0, timeLeft - 30);
                 }
             }
         }
         
-        // TIMER COUNTDOWN
+        // 11. FUNGSI TAMPILIN ANCAMAN
+        function showThreat(message) {
+            const status = document.querySelector('.status');
+            const newLine = document.createElement('div');
+            newLine.className = 'status-line';
+            newLine.style.color = '#f00';
+            newLine.style.animation = 'blink 0.5s';
+            newLine.innerHTML = `>> ${message}`;
+            status.appendChild(newLine);
+            
+            // Getar dikit
+            document.body.style.transform = 'translateX(5px)';
+            setTimeout(() => {
+                document.body.style.transform = 'translateX(-5px)';
+            }, 50);
+            setTimeout(() => {
+                document.body.style.transform = 'translateX(0)';
+            }, 100);
+        }
+        
+        // 12. TIMER
         function startTimer() {
-            timerInterval = setInterval(function() {
+            const timerInterval = setInterval(() => {
                 timeLeft--;
                 
                 if (timeLeft <= 0) {
-                    // WAKTU HABIS - HAPUS SEMUA (SIMULASI)
+                    // WAKTU HABIS
                     document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
-                            <div>⏰ WAKTU HABIS ⏰</div>
-                            <div style="font-size:20px; margin-top:20px;">SISTEM MELAKUKAN FORMAT OTOMATIS...</div>
-                            <div style="font-size:14px; margin-top:30px;">[====================] 100%</div>
-                            <div style="font-size:14px; color:#f66;">SEMUA DATA TELAH DIHAPUS</div>
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                            <div>⏰ WAKTU HABIS</div>
+                            <div style="font-size:24px; margin-top:20px;">ENKRIPSI OTOMATIS...</div>
+                            <div style="font-size:16px; margin-top:30px;">[====================] 100%</div>
                         </div>
                     `;
                     clearInterval(timerInterval);
-                    return;
                 }
                 
-                let mins = Math.floor(timeLeft / 60);
-                let secs = timeLeft % 60;
-                document.getElementById('timer').innerText = `⏳ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                document.getElementById('timer').innerHTML = 
+                    `⏳ ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             }, 1000);
         }
         
-        startTimer();
+        // 13. UPDATE STATUS RANDOM
+        function updateRandomStatus() {
+            const threats = [
+                "MENGHAPUS SYSTEM32...",
+                "MENGENKRIPSI DOKUMEN...",
+                "MENGKORUP REGISTRY...",
+                "MEMATIKAN ANTIVIRUS...",
+                "MENYANDIKAN FOTO...",
+                "MENGGANDAKAN VIRUS..."
+            ];
+            
+            setInterval(() => {
+                const random = threats[Math.floor(Math.random() * threats.length)];
+                const status = document.querySelector('.status');
+                const newLine = document.createElement('div');
+                newLine.className = 'status-line';
+                newLine.innerHTML = `>> ${random} ${Math.floor(Math.random() * 100)}%`;
+                status.appendChild(newLine);
+                
+                // Hapus yang lama kalo kebanyakan
+                if (status.children.length > 10) {
+                    status.removeChild(status.children[0]);
+                }
+            }, 3000);
+        }
         
-        // PAKSA FOKUS TERUS
-        window.focus();
-        setInterval(function() {
+        // INIT
+        window.onload = function() {
+            createKeypad();
+            startTimer();
+            updateRandomStatus();
+            updateDisplay();
             window.focus();
-        }, 100);
-        
-        // DISABLE SCROLL
-        window.addEventListener('scroll', function(e) {
-            window.scrollTo(0, 0);
-            e.preventDefault();
-        });
-        
-        // LOCK TOUCH MOVE
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-        
-        // SENSOR API - DETEKSI KELUAR DARI TAB
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                // KALO PINDAH TAB, KEMBALIKAN
-                setTimeout(function() {
-                    window.focus();
-                    goFullScreen();
-                    
-                    // TAMBAH EFEK PANIK
-                    timeLeft = Math.max(0, timeLeft - 10);
-                }, 10);
-            }
-        });
+            forceFullscreen();
+            
+            // Efek tambahan
+            setInterval(() => {
+                document.querySelector('.container').style.boxShadow = 
+                    `0 0 ${Math.random() * 100}px #f00`;
+            }, 500);
+        };
     </script>
 </body>
 </html>
