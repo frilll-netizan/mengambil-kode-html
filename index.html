@@ -2,431 +2,210 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔒 CHROME TERKUNCI - MASUKKAN PIN 🔒</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🔒 SYSTEM LOCKED 🔒</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
         }
         
         body {
             background: #000;
-            color: #ff0000;
+            color: #f00;
             font-family: 'Courier New', monospace;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
-            position: relative;
-            cursor: none;
-        }
-        
-        /* Efek darah di pinggir */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
             width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(255,0,0,0.1) 0px,
-                transparent 10px,
-                rgba(255,0,0,0.1) 20px
-            );
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        /* Mata ngintip */
-        .eyes {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
-            gap: 100px;
-            z-index: 2;
+            justify-content: center;
+            align-items: center;
+            touch-action: none;
         }
         
-        .eye {
-            width: 80px;
-            height: 80px;
-            background: #fff;
-            border-radius: 50%;
-            position: relative;
-            animation: blink 3s infinite;
-        }
-        
-        .eye::after {
-            content: "";
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #f00;
-            border-radius: 50%;
-            top: 25px;
-            left: 25px;
-            animation: moveEye 5s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
-        }
-        
-        @keyframes moveEye {
-            0%, 100% { left: 25px; }
-            50% { left: 35px; }
-        }
-        
-        /* Konten utama */
         .container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 90%;
-            max-width: 600px;
-            z-index: 10;
-            background: rgba(0,0,0,0.8);
+            background: #0a0000;
             border: 3px solid #f00;
-            padding: 40px;
+            border-radius: 20px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
             box-shadow: 0 0 50px #f00;
-            backdrop-filter: blur(5px);
         }
         
-        /* Efek glitch */
-        .glitch {
-            font-size: 48px;
+        .header {
+            font-size: 24px;
             font-weight: bold;
+            margin-bottom: 10px;
             text-transform: uppercase;
-            position: relative;
-            text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
-                         0.025em 0.04em 0 #fffc00;
-            animation: glitch 725ms infinite;
-            margin-bottom: 20px;
+            color: #f00;
+            text-shadow: 0 0 10px #f00;
         }
         
-        .glitch span {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        @keyframes glitch {
-            0% {
-                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
-                             0.025em 0.04em 0 #fffc00;
-            }
-            15% {
-                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
-                             0.025em 0.04em 0 #fffc00;
-            }
-            16% {
-                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
-                             -0.05em -0.05em 0 #fffc00;
-            }
-            49% {
-                text-shadow: -0.05em -0.025em 0 #00fffc, 0.025em 0.035em 0 #fc00ff,
-                             -0.05em -0.05em 0 #fffc00;
-            }
-            50% {
-                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
-                             0 -0.04em 0 #fffc00;
-            }
-            99% {
-                text-shadow: 0.05em 0.035em 0 #00fffc, 0.03em 0 0 #fc00ff,
-                             0 -0.04em 0 #fffc00;
-            }
-            100% {
-                text-shadow: 0.05em 0 0 #00fffc, -0.03em -0.04em 0 #fc00ff,
-                             0.025em 0.04em 0 #fffc00;
-            }
-        }
-        
-        /* Subtitle */
-        .subtitle {
-            font-size: 18px;
+        .subheader {
+            font-size: 12px;
             color: #f66;
-            margin-bottom: 30px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            margin-bottom: 20px;
             border-bottom: 1px solid #f00;
             padding-bottom: 10px;
         }
         
-        /* Kotak PIN */
-        .pin-box {
-            background: #111;
-            border: 2px solid #f00;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-        }
-        
         .pin-display {
-            font-size: 72px;
-            letter-spacing: 20px;
+            background: #1a0000;
+            border: 2px solid #f00;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 48px;
+            letter-spacing: 15px;
             font-weight: bold;
             color: #f00;
-            text-shadow: 0 0 20px #f00;
-            background: #000;
-            padding: 20px;
-            border: 1px solid #f00;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px #f00;
         }
         
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            max-width: 400px;
-            margin: 30px auto;
+            gap: 10px;
+            margin: 20px 0;
         }
         
         .key {
-            background: #1a0000;
+            background: #2a0000;
             border: 2px solid #f00;
-            color: #f00;
-            font-size: 40px;
-            padding: 20px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: bold;
             border-radius: 10px;
+            padding: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #f00;
+            cursor: pointer;
+            transition: 0.1s;
             box-shadow: 0 0 15px rgba(255,0,0,0.3);
-        }
-        
-        .key:hover {
-            background: #f00;
-            color: #000;
-            transform: scale(1.1);
-            box-shadow: 0 0 30px #f00;
+            text-shadow: 0 0 5px #f00;
         }
         
         .key:active {
+            background: #f00;
+            color: #000;
             transform: scale(0.95);
         }
         
         .enter-btn {
             background: #f00;
-            color: #000;
-            font-size: 36px;
-            padding: 20px 40px;
             border: none;
-            margin: 20px auto;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 5px;
             border-radius: 10px;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #000;
             width: 100%;
-            max-width: 400px;
+            margin: 10px 0;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             box-shadow: 0 0 30px #f00;
-            animation: pulse 1s infinite;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .enter-btn:hover {
+        .enter-btn:active {
             background: #900;
-            color: #fff;
+            transform: scale(0.98);
         }
         
-        /* Warning text */
+        .timer {
+            font-size: 28px;
+            color: #ff0;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
         .warning {
-            font-size: 16px;
+            font-size: 14px;
             color: #f00;
-            margin: 20px 0;
+            margin: 10px 0;
             animation: blink 1s infinite;
         }
         
         @keyframes blink {
-            0%, 100% { opacity: 1; }
+            0%,100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
         
-        /* Timer */
-        .timer {
-            font-size: 32px;
-            color: #ff0;
-            margin: 20px;
-            font-weight: bold;
-        }
-        
-        /* Status messages */
         .status {
-            font-size: 14px;
+            font-size: 12px;
             color: #f66;
-            margin-top: 20px;
-            text-align: left;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px solid #f00;
-            padding-top: 20px;
+            text-align: left;
         }
         
-        .status-line {
-            margin: 5px 0;
-            color: #f99;
-        }
-        
-        /* Efek glitch tambahan */
-        .glitch-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* Fullscreen fix */
+        :-webkit-full-screen {
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(255,0,0,0.1) 0px,
-                rgba(0,0,0,0.5) 2px,
-                rgba(255,0,0,0.1) 4px
-            );
-            pointer-events: none;
-            animation: scan 5s linear infinite;
-            z-index: 9999;
-        }
-        
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
         }
     </style>
 </head>
 <body>
-    <!-- Mata mengintip -->
-    <div class="eyes">
-        <div class="eye"></div>
-        <div class="eye"></div>
-    </div>
-    
-    <!-- Konten utama -->
     <div class="container">
-        <div class="glitch">
-            ⚠️ CHROME TERKUNCI ⚠️
-        </div>
+        <div class="header">⚠️ TERKUNCI ⚠️</div>
+        <div class="subheader">MASUKKAN PIN UNTUK KELUAR</div>
         
-        <div class="subtitle">
-            [ GA BISA KELUAR SAMPE LO MASUKIN PIN ]
-        </div>
+        <div class="pin-display" id="pinDisplay">_ _ _</div>
         
-        <div class="pin-box">
-            <div class="pin-display" id="pinDisplay">_ _ _</div>
-            
-            <div class="keypad" id="keypad"></div>
-            
-            <button class="enter-btn" onclick="checkPin()" id="enterBtn">
-                [ ENTER ]
-            </button>
-        </div>
+        <div class="keypad" id="keypad"></div>
         
-        <div class="warning">
-            ⚡ PIN: 100 ⚡
-        </div>
+        <button class="enter-btn" onclick="checkPin()" id="enterBtn">ENTER</button>
         
-        <div class="timer" id="timer">
-            ⏳ 05:00
-        </div>
+        <div class="timer" id="timer">04:34</div>
+        <div class="warning">PIN: 100</div>
         
         <div class="status">
-            <div class="status-line">>> CHROME PROCESS: LOCKED</div>
-            <div class="status-line">>> NEW TAB: DISABLED</div>
-            <div class="status-line">>> CLOSE TAB: BLOCKED</div>
-            <div class="status-line">>> ALT+F4: BYPASSED</div>
-            <div class="status-line">>> TASK MANAGER: DETECTED</div>
-            <div class="status-line">>> SYSTEM: ENCRYPTING...</div>
+            <div id="statusMsg">>> STATUS: LOCKED</div>
         </div>
     </div>
-    
-    <!-- Efek glitch overlay -->
-    <div class="glitch-overlay"></div>
 
     <script>
         // ===========================================
-        // CHROME LOCKDOWN - GAK BISA KELUAR
+        // MOBILE LOCKDOWN - BENERAN GAK BISA KELUAR
         // ===========================================
         
         let enteredPin = "";
         const correctPin = "100";
         let attempts = 0;
-        const maxAttempts = 5;
-        let timeLeft = 300; // 5 menit dalam detik
+        let timeLeft = 274; // 04:34 = 274 detik
         
-        // 1. PAKSA FULLSCREEN
-        function forceFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    // Gagal? coba lagi
-                });
-            }
-        }
+        // ===== 1. BLOCK SEMUA TOMBOL HP =====
         
-        // Paksa fullscreen tiap detik
-        setInterval(forceFullscreen, 1000);
-        forceFullscreen();
+        // Block tombol back Android
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+            history.pushState(null, null, location.href);
+            showStatus("❌ TOMBOL BACK DIBLOCK!");
+            timeLeft -= 5;
+            return false;
+        };
         
-        // 2. BLOCK SEMUA TOMBOL NAVIGASI CHROME
+        // Block semua tombol fisik
         document.addEventListener('keydown', function(e) {
-            // DAFTAR TOMBOL YANG DIBLOCK
+            e.preventDefault();
+            
+            // Block volume, power, back, dll
             const blockedKeys = [
-                'Escape', 'F11', 'F12', 'F5', 'F4',
-                'Tab', 'Alt', 'Control', 'Meta', 'Win',
-                'ContextMenu'
+                'Backspace', 'Escape', 'F11', 'F12',
+                'VolumeUp', 'VolumeDown', 'Power', 'Home'
             ];
             
-            // Block semua tombol fungsi
             if (blockedKeys.includes(e.key)) {
-                e.preventDefault();
-                e.stopPropagation();
+                showStatus("❌ TOMBOL FISIK DIBLOCK!");
                 return false;
-            }
-            
-            // Block kombinasi chrome
-            if (e.ctrlKey && e.key === 't') { // New tab
-                e.preventDefault();
-                showThreat('Mencoba buka tab baru? GA BISA!');
-                timeLeft -= 10;
-            }
-            
-            if (e.ctrlKey && e.key === 'w') { // Close tab
-                e.preventDefault();
-                showThreat('Mau nutup tab? GA BISA!');
-                timeLeft -= 10;
-            }
-            
-            if (e.ctrlKey && e.key === 'r') { // Refresh
-                e.preventDefault();
-                showThreat('Refresh? GA BISA!');
-                timeLeft -= 10;
-            }
-            
-            if (e.altKey && e.key === 'F4') { // Close window
-                e.preventDefault();
-                showThreat('Alt+F4? MATIIN AJA!');
-                timeLeft -= 15;
-            }
-            
-            if (e.ctrlKey && e.shiftKey && e.key === 'Escape') { // Task Manager
-                e.preventDefault();
-                showThreat('TASK MANAGER? MAU MATIIN PROSES?');
-                document.body.style.background = '#f00';
-                setTimeout(() => {
-                    document.body.style.background = '#000';
-                }, 500);
-            }
-            
-            // Block semua ALT/CTRL combinations
-            if (e.altKey || e.ctrlKey || e.metaKey) {
-                e.preventDefault();
-                e.stopPropagation();
             }
             
             // Handle input angka
@@ -439,77 +218,138 @@
                 checkPin();
             }
             
-            // Backspace
-            if (e.key === 'Backspace' || e.key === 'Delete') {
-                deletePin();
-            }
-        });
-        
-        // 3. BLOCK KLIK KANAN
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            showThreat('KLIK KANAN? UDAH GA BERFUNGSI!');
             return false;
         });
         
-        // 4. CEK KELUAR DARI HALAMAN
-        window.addEventListener('beforeunload', function(e) {
-            e.preventDefault();
-            e.returnValue = 'MASUKKIN PIN DULU KONTOL!';
-            showThreat('MAU KELUAR? PIN DULU!');
-            return 'MASUKKIN PIN DULU KONTOL!';
-        });
+        // ===== 2. BLOCK SEMUA GESTURE HP =====
         
-        // 5. CEK VISIBILITY (PINDAH TAB)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                showThreat('PINDAH TAB? BALIK SANA!');
-                timeLeft = Math.max(0, timeLeft - 30);
-                window.focus();
-                forceFullscreen();
+        // Block swipe back
+        document.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        document.addEventListener('touchend', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // Block gesture dari tepi layar
+        document.addEventListener('touchstart', function(e) {
+            const touch = e.touches[0];
+            if (touch.clientX < 50 || touch.clientX > window.innerWidth - 50) {
+                // Swipe dari tepi
+                showStatus("❌ GESTURE TEPI DIBLOCK!");
+                e.preventDefault();
+                timeLeft -= 2;
+            }
+        }, { passive: false });
+        
+        // ===== 3. BLOCK SEMUA NAVIGASI =====
+        
+        // Block menu recent apps (via gesture)
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length >= 3) {
+                // 3 jari = recent apps
+                showStatus("❌ RECENT APPS DIBLOCK!");
+                e.preventDefault();
+                timeLeft -= 10;
             }
         });
         
-        // 6. PAKSA FOKUS
+        // Block home button (via gesture)
+        let touchStartY = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            const touch = e.touches[0];
+            if (touch.clientY - touchStartY > 100) {
+                // Swipe up dari bawah = home
+                showStatus("❌ HOME GESTURE DIBLOCK!");
+                e.preventDefault();
+                timeLeft -= 5;
+            }
+        });
+        
+        // ===== 4. PAKSA FULLSCREEN DI HP =====
+        
+        function forceFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    // Coba lagi
+                    setTimeout(forceFullscreen, 100);
+                });
+            }
+        }
+        
+        // Paksa fullscreen terus
+        forceFullscreen();
+        setInterval(forceFullscreen, 500);
+        
+        // Orientasi paksa landscape/portrait
+        screen.orientation.lock('portrait').catch(() => {});
+        
+        // ===== 5. CEK KELUAR DARI APP =====
+        
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Balik lagi
+                window.focus();
+                forceFullscreen();
+                timeLeft -= 30; // Hukuman
+                showStatus("❌ KELUAR APP? HUKUMAN -30 DETIK!");
+            }
+        });
+        
         window.addEventListener('blur', function() {
             setTimeout(() => {
                 window.focus();
-                forceFullscreen();
             }, 10);
         });
         
-        // 7. BLOCK SCROLL
-        window.addEventListener('scroll', function(e) {
-            window.scrollTo(0, 0);
-            e.preventDefault();
+        // ===== 6. BLOCK SCREENSHOT =====
+        
+        // Visual feedback kalo screenshot
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 's')) {
+                showStatus("❌ SCREENSHOT DIBLOCK!");
+                timeLeft -= 5;
+            }
         });
         
-        // 8. BUAT KEYPAD
+        // ===== 7. FUNGSI PIN =====
+        
         function createKeypad() {
             const keypad = document.getElementById('keypad');
-            const buttons = [
+            const keys = [
                 '1', '2', '3',
                 '4', '5', '6',
                 '7', '8', '9',
-                'C', '0', '⌫'
+                'C', '0', 'X'
             ];
             
-            buttons.forEach(btn => {
-                const key = document.createElement('div');
-                key.className = 'key';
-                key.textContent = btn;
+            keys.forEach(key => {
+                const btn = document.createElement('div');
+                btn.className = 'key';
+                btn.textContent = key;
                 
-                key.onclick = function() {
-                    if (btn === 'C') clearPin();
-                    else if (btn === '⌫') deletePin();
-                    else addPin(btn);
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (key === 'C') clearPin();
+                    else if (key === 'X') deletePin();
+                    else addPin(key);
                 };
                 
-                keypad.appendChild(key);
+                keypad.appendChild(btn);
             });
         }
         
-        // 9. FUNGSI PIN
         function addPin(num) {
             if (enteredPin.length < 3) {
                 enteredPin += num;
@@ -536,57 +376,46 @@
             document.getElementById('pinDisplay').innerText = display;
         }
         
-        // 10. CEK PIN
         function checkPin() {
             if (enteredPin === correctPin) {
                 // PIN BENAR
                 document.body.innerHTML = `
-                    <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                    <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
                         <div>✅ PIN BENAR</div>
-                        <div style="font-size:24px; margin-top:20px;">CHROME AKAN DIBUKA...</div>
+                        <div style="font-size:16px; margin-top:20px;">MEMBUKA KUNCI...</div>
                     </div>
                 `;
                 
-                // Keluar dari fullscreen
                 setTimeout(() => {
                     if (document.fullscreenElement) {
                         document.exitFullscreen();
                     }
                 }, 2000);
             } else {
-                // PIN SALAH
                 attempts++;
-                showThreat(`PIN SALAH! PERCOBAAN ${attempts}/${maxAttempts}`);
+                showStatus(`❌ PIN SALAH! PERCOBAAN ${attempts}/5`);
                 
-                if (attempts >= maxAttempts) {
+                if (attempts >= 5) {
                     // MAX ATTEMPT
                     document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
                             <div>💀💀💀</div>
                             <div>PERCOBAAN GAGAL</div>
-                            <div style="font-size:24px; margin-top:20px;">SEMUA DATA DIENKRIPSI</div>
-                            <div style="font-size:16px; margin-top:30px;">CHROME AKAN DI LOCK SELAMANYA</div>
+                            <div style="font-size:16px; margin-top:20px;">DATA DIENKRIPSI</div>
                         </div>
                     `;
                 } else {
                     enteredPin = "";
                     updateDisplay();
-                    timeLeft = Math.max(0, timeLeft - 30);
+                    timeLeft = Math.max(0, timeLeft - 15);
                 }
             }
         }
         
-        // 11. FUNGSI TAMPILIN ANCAMAN
-        function showThreat(message) {
-            const status = document.querySelector('.status');
-            const newLine = document.createElement('div');
-            newLine.className = 'status-line';
-            newLine.style.color = '#f00';
-            newLine.style.animation = 'blink 0.5s';
-            newLine.innerHTML = `>> ${message}`;
-            status.appendChild(newLine);
+        function showStatus(msg) {
+            document.getElementById('statusMsg').innerHTML = `>> ${msg}`;
             
-            // Getar dikit
+            // Getar dikit (simulasi)
             document.body.style.transform = 'translateX(5px)';
             setTimeout(() => {
                 document.body.style.transform = 'translateX(-5px)';
@@ -596,18 +425,15 @@
             }, 100);
         }
         
-        // 12. TIMER
         function startTimer() {
             const timerInterval = setInterval(() => {
                 timeLeft--;
                 
                 if (timeLeft <= 0) {
-                    // WAKTU HABIS
                     document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:48px; z-index:99999; flex-direction:column;">
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
                             <div>⏰ WAKTU HABIS</div>
-                            <div style="font-size:24px; margin-top:20px;">ENKRIPSI OTOMATIS...</div>
-                            <div style="font-size:16px; margin-top:30px;">[====================] 100%</div>
+                            <div style="font-size:16px; margin-top:20px;">ENKRIPSI OTOMATIS...</div>
                         </div>
                     `;
                     clearInterval(timerInterval);
@@ -615,51 +441,21 @@
                 
                 const mins = Math.floor(timeLeft / 60);
                 const secs = timeLeft % 60;
-                document.getElementById('timer').innerHTML = 
-                    `⏳ ${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+                document.getElementById('timer').innerText = 
+                    `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             }, 1000);
-        }
-        
-        // 13. UPDATE STATUS RANDOM
-        function updateRandomStatus() {
-            const threats = [
-                "MENGHAPUS SYSTEM32...",
-                "MENGENKRIPSI DOKUMEN...",
-                "MENGKORUP REGISTRY...",
-                "MEMATIKAN ANTIVIRUS...",
-                "MENYANDIKAN FOTO...",
-                "MENGGANDAKAN VIRUS..."
-            ];
-            
-            setInterval(() => {
-                const random = threats[Math.floor(Math.random() * threats.length)];
-                const status = document.querySelector('.status');
-                const newLine = document.createElement('div');
-                newLine.className = 'status-line';
-                newLine.innerHTML = `>> ${random} ${Math.floor(Math.random() * 100)}%`;
-                status.appendChild(newLine);
-                
-                // Hapus yang lama kalo kebanyakan
-                if (status.children.length > 10) {
-                    status.removeChild(status.children[0]);
-                }
-            }, 3000);
         }
         
         // INIT
         window.onload = function() {
             createKeypad();
             startTimer();
-            updateRandomStatus();
             updateDisplay();
-            window.focus();
-            forceFullscreen();
             
-            // Efek tambahan
-            setInterval(() => {
-                document.querySelector('.container').style.boxShadow = 
-                    `0 0 ${Math.random() * 100}px #f00`;
-            }, 500);
+            // Push state buat block back
+            history.pushState(null, null, location.href);
+            
+            showStatus(">> GA BISA KELUAR!");
         };
     </script>
 </body>
